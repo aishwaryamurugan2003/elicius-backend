@@ -4,11 +4,10 @@ from app.email_sender import send_email
 
 app = FastAPI()
 
-# CORS settings (allows frontend → backend API calls)
+# CORS settings
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Change to your frontend domain when deployed
-    allow_credentials=True,
+    allow_origins=["*"],  
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -19,11 +18,11 @@ async def contact_form(
     email: str = Form(...),
     phone: str = Form(...),
     company: str = Form(""),
+    interest: str = Form(...),  
     message: str = Form(...)
 ):
     try:
-        # Call function that sends the Gmail SMTP email
-        send_email(name, email, phone, company, message)
+        send_email(name, email, phone, company, interest, message)
 
         return {
             "status": "success",
